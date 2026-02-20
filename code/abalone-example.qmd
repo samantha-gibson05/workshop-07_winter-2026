@@ -13,13 +13,15 @@ execute:
 # Set up
 
 ```{r libraries-and-data}
+#| message: false
+#| warning: false
 library(tidyverse) # general use
 library(janitor) # cleaning data frames
 library(here) # file/folder organization
 library(readxl) # reading .xlsx files
 library(ggeffects) # generating model predictions
 library(gtsummary) # generating summary tables for models
-
+library(flextable)
 # abalone data from Hamilton et al. 2022
 abalone <- read_xlsx(here("data", "Abalone IMTA_growth and pH.xlsx"))
 ```
@@ -55,11 +57,11 @@ Don't forget to look at your data! Use `View(abalone_clean)` in the _Console_.
 ## c. Exploratory data visualization
 
 ```{r abalone-scatterplot}
-# 
-ggplot(data = abalone_clean, # 
-       aes(x = mean_ph, # 
-           y = change_in_area)) 
-  # 
+# base layer : ggplot
+ggplot(data = abalone_clean, # data is abalone_clean
+       aes(x = mean_ph, # x is mena_ph (predictor)
+           y = change_in_area)) + # y is change_in_area (response)
+  
   geom_point(size = 4,
              stroke = 1,
              fill = "firebrick4",
@@ -68,7 +70,7 @@ ggplot(data = abalone_clean, #
 
 Where does the missing value come from?  
 
-**insert response here**  
+**came from tank B1B**  
 
 Don't forget to turn your warnings off either in the individual code chunk or in the YAML at the top of the file.
 
@@ -91,6 +93,13 @@ par(mfrow = c(2, 2))   #
 plot(abalone_model)    # 
 
 ```
+
+QQ plot = normality check --> assumption met
+residuals vs fitted + scale location = homoscedascity check --> generally follows consistency across values
+residuals vs leverage = outliers check --> assumption met
+
+
+residuals seem homoscedastic (consistent across values) based on residuals vs fitted and scale-location plots. residuals seem normally distrbuted based on the QQ plot, the points mostly follow the reference line, there were also no outliers that might influence model estimates or prediction based on residuals vs leverage.
 
 ### Model summary
 
