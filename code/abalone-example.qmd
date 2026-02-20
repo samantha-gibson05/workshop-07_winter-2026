@@ -39,13 +39,13 @@ H~A~: **pH does predict abalone growth (change in shell surface area per day, mm
 ## b. Cleaning
 
 ```{r abalone-data-cleaning}
-# 
-abalone_clean <- abalone  
-  # 
-  clean_names()  
-  # 
-  select(mean_p_h, change_in_area_mm2_d_1_25)  
-  # 
+# make new df from abalone
+abalone_clean <- abalone  |>
+  # cleaned names w/ underscore + no caps
+  clean_names()  |>
+  # selected for columns of interest
+  select(mean_p_h, change_in_area_mm2_d_1_25)  |>
+  # changed column names
   rename(mean_ph = mean_p_h, 
          change_in_area = change_in_area_mm2_d_1_25)
 ```
